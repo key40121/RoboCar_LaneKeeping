@@ -30,7 +30,8 @@ void test_for_robocar();
 
 int main() {
 	// test_1();
-	test_2();
+	// test_2();
+	test_for_robocar();
 }
 
 
@@ -370,7 +371,7 @@ void test_2()
 	std::cout << radius_of_curvature << std::endl;
 
 	// have to think about the width of the car and the lane.
-	radius_of_curvature = radius_of_curvature - 182.5;
+	radius_of_curvature = radius_of_curvature - 270;
 
 	// steering angle
 	double steering_angle;
@@ -389,7 +390,7 @@ void test_for_robocar()
 	cv::Mat img;
 	cv::Mat processed;
 
-	img = cv::imread("image/test_4.jpg");
+	img = cv::imread("image/test_7.jpg");
 
 	// calibration
 	processed = ImageCalibration(img);
@@ -415,6 +416,7 @@ void test_for_robocar()
 	std::cout << radius_of_curvature << std::endl;
 
 	// have to think about the width of the car and the lane.
+	// radius_of_curvature = radius_of_curvature - 182.5;
 	radius_of_curvature = radius_of_curvature - 182.5;
 
 	// steering angle
