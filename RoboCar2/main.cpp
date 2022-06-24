@@ -437,9 +437,10 @@ void test_for_robocar()
 
 	// Radius of curvature
 	double radius_of_curvature;
-	radius_of_curvature = std::pow((1 + std::pow(2 * poly_co * pts[3].x * xmm_per_pix + lin_co, 2)), 1.5) / abs(2 * poly_co);
+	radius_of_curvature = std::pow((1 + std::pow(2 * poly_co * pts[3].x * xmm_per_pix + lin_co, 2)), 1.5) / std::abs(2 * poly_co);
 
-	std::cout << radius_of_curvature << std::endl;
+	std::cout << "--------------------------------" << std::endl;
+	std::cout << "Radius of curvature is " << radius_of_curvature << std::endl;
 
 	// have to think about the width of the car and the lane.
 	// radius_of_curvature = radius_of_curvature - 182.5;
@@ -449,8 +450,9 @@ void test_for_robocar()
 	double steering_angle;
 	steering_angle = SteerAngle(radius_of_curvature);
 
-	std::cout << steering_angle << std::endl;
-
+	std::cout << "Steering angle is " << steering_angle << std::endl;
+	std::cout << "-------------------------------" << std::endl;
+		
 
 	// show test image
 	cv::imshow("test", processed);
