@@ -25,8 +25,6 @@ cv::Mat ImageBirdsEyeProcess(cv::Mat img);
 cv::Mat ImageProcessing(cv::Mat img);
 
 
-
-
 // test 
 void test_1();
 void test_2();
@@ -44,8 +42,6 @@ std::vector<cv::Point2f> FindNonZero(cv::Mat img)
 	int width = img.cols;
 	int height = img.rows;
 
-	std::cout << img.at<int>(10, 10) << std::endl;
-
 	for (int i = 0; i < img.cols; i++)
 	{
 		for (int j = 0; j < img.rows; j++)
@@ -57,7 +53,6 @@ std::vector<cv::Point2f> FindNonZero(cv::Mat img)
 			}
 		}
 	}
-	std::cout << locations << std::endl;
 
 	return locations;
 }
@@ -85,9 +80,6 @@ std::vector<cv::Point2f> SlidingWindow(cv::Mat image, cv::Rect window) {
 		// Get all non-black pixels. All pixels are white in our case.
 		//cv::findNonZero(roi, locations);
 		locations = FindNonZero(roi);
-
-		//test
-		std::cout << locations << std::endl;
 	// ------------------------------------------------//
 
 		float avgX = 0.0f;
