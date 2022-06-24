@@ -18,10 +18,14 @@ double xmm_per_pix = 365 / 220;
 std::vector<cv::Point2f> SlidingWindow(cv::Mat image, cv::Rect);
 std::tuple<double, double> Polynomial(std::vector<cv::Point2f>);
 std::tuple<cv::Mat, cv::Mat> CalibMatrix();
+std::vector<cv::Point2f> FindNonZero(cv::Mat img);
 
 cv::Mat ImageCalibration(cv::Mat img);
 cv::Mat ImageBirdsEyeProcess(cv::Mat img);
 cv::Mat ImageProcessing(cv::Mat img);
+
+
+
 
 // test 
 void test_1();
@@ -34,6 +38,29 @@ int main() {
 	test_for_robocar();
 }
 
+std::vector<cv::Point2f> FindNonZero(cv::Mat img)
+{
+	std::vector<cv::Point2f> locations;
+	int width = img.cols;
+	int height = img.rows;
+
+	std::cout << img.at<int>(10, 10) << std::endl;
+
+	for (int i = 0; i < img.cols; i++)
+	{
+		for (int j = 0; j < img.rows; j++)
+		{
+			int intensity = img.at<unsigned char>(j, i);
+			if (intensity == 255)
+			{
+				locations.push_back(cv::Point2f(i, j));
+			}
+		}
+	}
+	std::cout << locations << std::endl;
+
+	return locations;
+}
 
 std::vector<cv::Point2f> SlidingWindow(cv::Mat image, cv::Rect window) {
 	std::vector<cv::Point2f> points;
@@ -54,8 +81,15 @@ std::vector<cv::Point2f> SlidingWindow(cv::Mat image, cv::Rect window) {
 
 		std::vector<cv::Point2f> locations;
 
+		//--------------------------------------------------------------------//
 		// Get all non-black pixels. All pixels are white in our case.
-		cv::findNonZero(roi, locations);
+		//cv::findNonZero(roi, locations);
+		locations = FindNonZero(roi);
+
+		//test
+		std::cout << locations << std::endl;
+	// ------------------------------------------------//
+
 		float avgX = 0.0f;
 
 		// Calculate average X position
@@ -158,13 +192,13 @@ std::tuple<double, double> Polynomial(std::vector<cv::Point2f> pts)
 	for (i = 0; i <= n; i++)
 		B[i][n + 1] = Y[i];                //load the values of Y as the last column of B(Normal Matrix but augmented)
 	n = n + 1;                //n is made n+1 because the Gaussian Elimination part below was for n equations, but here n is the degree of polynomial and for n degree we get n+1 equations
-	std::cout << "\nThe Normal(Augmented Matrix) is as follows:\n";
-	for (i = 0; i < n; i++)            //print the Normal-augmented matrix
-	{
-		for (j = 0; j <= n; j++)
-			std::cout << B[i][j] << std::setw(16);
-		std::cout << "\n";
-	}
+	//std::cout << "\nThe Normal(Augmented Matrix) is as follows:\n";
+	//for (i = 0; i < n; i++)            //print the Normal-augmented matrix
+	//{
+	//	for (j = 0; j <= n; j++)
+	//		std::cout << B[i][j] << std::setw(16);
+	//	std::cout << "\n";
+	//}
 	for (i = 0; i < n; i++)                    //From now Gaussian Elimination starts(can be ignored) to solve the set of linear equations (Pivotisation)
 		for (k = i + 1; k < n; k++)
 			if (B[i][i] < B[k][i])
@@ -390,7 +424,7 @@ void test_for_robocar()
 	cv::Mat img;
 	cv::Mat processed;
 
-	img = cv::imread("image/test_7.jpg");
+	img = cv::imread("image/test_4.jpg");
 
 	// calibration
 	processed = ImageCalibration(img);
